@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Classement des Joueurs</title>
+    <style>
+        body {
+            background-color: #333; /* Fond gris foncé */
+            color: #fff; /* Texte blanc */
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+        .container {
+            max-width: 800px;
+            margin: auto;
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        .classement-item {
+            margin-bottom: 20px;
+            padding: 10px;
+            background-color: #444; /* Légèrement plus clair que le fond */
+        }
+        .celebrite-img {
+            width: 60px;
+            height: 60px;
+            object-fit: cover;
+            margin-right: 10px;
+        }
+        .img-gray {
+            filter: grayscale(100%);
+        }
+        .celebrites-container {
+            display: flex;
+            align-items: center;
+            margin-top: 10px;
+        }
+        .info-modal {
+            display: none;
+            position: fixed;
+            background-color: #fff;
+            color: #000;
+            padding: 20px;
+            border-radius: 5px;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 1000;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Classement des Joueurs</h1>
+        <div id="classement-container">
+            <!-- Le classement des joueurs sera injecté ici -->
+        </div>
+    </div>
+
+    <div id="info-modal" class="info-modal">
+        <!-- Les infos de la célébrité seront affichées ici -->
+    </div>
+
+    <script>
+        // JavaScript pour charger les données et les afficher sera ajouté ici
+    </script>
+</body>
+</html>
