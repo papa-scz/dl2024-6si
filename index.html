@@ -51,6 +51,10 @@
             z-index: 1000;
             text-align: center;
         }
+        .joueur-premier {
+      border: 3px solid gold;
+      background-color: #555;
+        }
     </style>
 </head>
 <body>
@@ -74,6 +78,12 @@ document.addEventListener('DOMContentLoaded', function() {
         data.classement.forEach(joueur => {
             const joueurDiv = document.createElement('div');
             joueurDiv.classList.add('classement-item');
+            
+            // Vérifie si c'est le joueur numéro 1 et applique un style différent
+            if (joueur.place === 1) {
+                joueurDiv.classList.add('joueur-premier');
+            }
+
             joueurDiv.innerHTML = `<strong>${joueur.place}. ${joueur.nomJoueur}</strong>`;
 
             const celebritesContainer = document.createElement('div');
@@ -91,12 +101,12 @@ document.addEventListener('DOMContentLoaded', function() {
                     img.addEventListener('click', (e) => {
                         e.stopPropagation(); // Empêche la propagation de cet événement
                         const infoModal = document.getElementById('info-modal');
-                        const dateDecesFormatee = formaterDate(celebrite.dateDeces); // Formate la date de décès
+                        const dateDecesFormatee = formaterDate(celebrite.dateDeces);
                         infoModal.innerHTML = `<h2>${celebrite.nom}</h2>
-                                               <p>${celebrite.titre}</p>
-                                               <p>${celebrite.age}</p>`;
+                                               <p>Titre: ${celebrite.titre}</p>
+                                               <p>Âge: ${celebrite.age}</p>`;
                         if (celebrite.dateDeces) {
-                            infoModal.innerHTML += `<p>${dateDecesFormatee}</p>`;
+                            infoModal.innerHTML += `<p>Date de décès: ${dateDecesFormatee}</p>`;
                         }
                         infoModal.style.display = 'block';
                     });
@@ -108,7 +118,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    // Gestionnaire d'événements pour fermer le modal quand on clique en dehors
     window.addEventListener('click', function(e) {
         const infoModal = document.getElementById('info-modal');
         if (infoModal.style.display === 'block' && !infoModal.contains(e.target)) {
@@ -116,17 +125,15 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-    // Fonction pour formater les dates
     function formaterDate(dateString) {
         if (!dateString) return ""; // Retourne une chaîne vide si aucune date n'est fournie
-
         const date = new Date(dateString);
         const jour = date.getDate().toString().padStart(2, '0');
-        const mois = (date.getMonth() + 1).toString().padStart(2, '0'); // getMonth() retourne un mois de 0 à 11
+        const mois = (date.getMonth() + 1).toString().padStart(2, '0');
         const annee = date.getFullYear();
         return `${jour}/${mois}/${annee}`;
     }
-});
+});   
 </script>
 </body>
 </html>
