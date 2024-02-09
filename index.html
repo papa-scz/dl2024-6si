@@ -65,54 +65,51 @@
     </div>
 
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-    fetch('https://script.google.com/macros/s/AKfycbxH1XzjHDDD3nSo3FNiDBrcUv3NpLloOqi7Djgk-p7aTxFMZgW7wUjQCJEpr3aJlqSGuA/exec')
-    .then(response => response.json())
-    .then(data => {
-        const classementContainer = document.getElementById('classement-container');
-        data.classement.forEach(joueur => {
+    document.addEventListener('DOMContentLoaded', function() {
+      fetch('https://script.google.com/macros/s/AKfycbxH1XzjHDDD3nSo3FNiDBrcUv3NpLloOqi7Djgk-p7aTxFMZgW7wUjQCJEpr3aJlqSGuA/exec')
+        .then(response => response.json())
+        .then(data => {
+          const classementContainer = document.getElementById('classement-container');
+          data.classement.forEach(joueur => {
             const joueurDiv = document.createElement('div');
             joueurDiv.classList.add('classement-item');
             joueurDiv.innerHTML = `<strong>${joueur.place}. ${joueur.nomJoueur}</strong>`;
-
             const celebritesContainer = document.createElement('div');
             celebritesContainer.classList.add('celebrites-container');
             joueur.celebrites.forEach(celebriteNom => {
-                const celebrite = data.celebrites.find(c => c.nom === celebriteNom);
-                if (celebrite) {
-                    const img = document.createElement('img');
-                    img.src = celebrite.lienPhoto;
-                    img.alt = celebrite.nom;
-                    img.classList.add('celebrite-img');
-                    if (celebrite.dateDeces) { // Supposant que `dateDeces` est utilisé pour griser l'image
-                        img.classList.add('img-gray');
-                    }
-                    // Ajouter un événement click pour afficher les infos de la célébrité
-                    img.addEventListener('click', () => {
-                        const infoModal = document.getElementById('info-modal');
-                        infoModal.innerHTML = `<h2>${celebrite.nom}</h2><p>Titre: ${celebrite.titre}</p><p>Age: ${celebrite.age}</p>`;
-                        if (celebrite.dateDeces) {
-                            infoModal.innerHTML += `<p>Date de décès: ${celebrite.dateDeces}</p>`;
-                        }
-                        infoModal.style.display = 'block';
-                    });
-                    celebritesContainer.appendChild(img);
+              const celebrite = data.celebrites.find(c => c.nom === celebriteNom);
+              if (celebrite) {
+                const img = document.createElement('img');
+                img.src = celebrite.lienPhoto;
+                img.alt = celebrite.nom;
+                img.classList.add('celebrite-img');
+                if (celebrite.dateDeces) {
+                  img.classList.add('img-gray');
                 }
+                img.addEventListener('click', (e) => {
+                  e.stopPropagation(); // Empêche la propagation de cet événement
+                  const infoModal = document.getElementById('info-modal');
+                  infoModal.innerHTML = `<h2>${celebrite.nom}</h2><p>Titre: ${celebrite.titre}</p><p>Age: ${celebrite.age}</p>`;
+                  if (celebrite.dateDeces) {
+                    infoModal.innerHTML += `<p>Date de décès: ${celebrite.dateDeces}</p>`;
+                  }
+                  infoModal.style.display = 'block';
+                });
+                celebritesContainer.appendChild(img);
+              }
             });
             joueurDiv.appendChild(celebritesContainer);
             classementContainer.appendChild(joueurDiv);
+          });
         });
+      // Gestionnaire d'événements pour fermer le modal quand on clique en dehors
+      window.addEventListener('click', function(e) {
+        const infoModal = document.getElementById('info-modal');
+        if (infoModal.style.display === 'block' && !infoModal.contains(e.target)) {
+          infoModal.style.display = 'none';
+        }
+      });
     });
-});
-
-// Ajouter un listener pour fermer le modal quand on clique en dehors
-window.addEventListener('click', function(e) {
-    const infoModal = document.getElementById('info-modal');
-    if (!infoModal.contains(e.target)) {
-        infoModal.style.display = 'none';
-    }
-});
-
-    </script>
+  </script>
 </body>
 </html>
