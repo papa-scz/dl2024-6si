@@ -49,6 +49,7 @@
             left: 50%;
             transform: translate(-50%, -50%);
             z-index: 1000;
+            text-align: center;
         }
     </style>
 </head>
@@ -89,9 +90,9 @@
                 img.addEventListener('click', (e) => {
                   e.stopPropagation(); // Empêche la propagation de cet événement
                   const infoModal = document.getElementById('info-modal');
-                  infoModal.innerHTML = `<h2>${celebrite.nom}</h2><p>Titre: ${celebrite.titre}</p><p>Age: ${celebrite.age}</p>`;
+                  infoModal.innerHTML = `<h2>${celebrite.nom}</h2><p>${celebrite.titre}</p><p>Age: ${celebrite.age}</p>`;
                   if (celebrite.dateDeces) {
-                    infoModal.innerHTML += `<p>Date de décès: ${celebrite.dateDeces}</p>`;
+                    infoModal.innerHTML += `<p>${celebrite.dateDeces}</p>`;
                   }
                   infoModal.style.display = 'block';
                 });
