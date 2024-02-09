@@ -66,6 +66,16 @@
     </div>
 
     <script>
+    function formaterDate(dateString) {
+    if (!dateString) return ""; // Retourne une chaîne vide si aucune date n'est fournie
+
+    const date = new Date(dateString);
+    const jour = date.getDate().toString().padStart(2, '0');
+    const mois = (date.getMonth() + 1).toString().padStart(2, '0'); // getMonth() retourne un mois de 0 à 11
+    const annee = date.getFullYear();
+    return `${jour}/${mois}/${annee}`;
+    };
+        
     document.addEventListener('DOMContentLoaded', function() {
       fetch('https://script.google.com/macros/s/AKfycbxH1XzjHDDD3nSo3FNiDBrcUv3NpLloOqi7Djgk-p7aTxFMZgW7wUjQCJEpr3aJlqSGuA/exec')
         .then(response => response.json())
@@ -88,17 +98,17 @@
                   img.classList.add('img-gray');
                 }
                 img.addEventListener('click', (e) => {
-                  e.stopPropagation(); // Empêche la propagation de cet événement
-                  const infoModal = document.getElementById('info-modal');
-                  infoModal.innerHTML = `<h2>${celebrite.nom}</h2><p>${celebrite.titre}</p><p>Age: ${celebrite.age}</p>`;
-                  if (celebrite.dateDeces) {
-                    infoModal.innerHTML += `<p>${celebrite.dateDeces}</p>`;
-                  }
-                  infoModal.style.display = 'block';
-                });
-                celebritesContainer.appendChild(img);
-              }
-            });
+    e.stopPropagation();
+    const infoModal = document.getElementById('info-modal');
+    const dateDecesFormatee = formaterDate(celebrite.dateDeces); // Utilisez la fonction pour formater la date
+    infoModal.innerHTML = `<h2>${celebrite.nom}</h2>
+                           <p>Titre: ${celebrite.titre}</p>
+                           <p>Age: ${celebrite.age}</p>`;
+    if (celebrite.dateDeces) {
+        infoModal.innerHTML += `<p>Date de décès: ${dateDecesFormatee}</p>`;
+    }
+    infoModal.style.display = 'block';
+});
             joueurDiv.appendChild(celebritesContainer);
             classementContainer.appendChild(joueurDiv);
           });
