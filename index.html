@@ -19,11 +19,51 @@
             text-align: center;
             margin-bottom: 40px;
         }
-        .classement-item {
-            margin-bottom: 20px;
-            padding: 10px;
-            background-color: #444; /* Légèrement plus clair que le fond */
-        }
+   .classement-item {
+      position: relative;
+      /* Assure que le positionnement absolu de .place-joueur est relatif à ce bloc */
+      margin-bottom: 20px;
+      padding: 20px 10px;
+      /* Augmente le padding en haut pour laisser de la place à .place-joueur */
+      background-color: #444;
+      /* Légèrement plus clair que le fond */
+      text-align: center;
+    }
+
+    .place-joueur {
+      position: absolute;
+      /* Positionnement absolu pour placer en dehors du bloc */
+      top: -15px;
+      /* Positionne légèrement en dehors du bloc */
+      left: 50%;
+      /* Débute au centre */
+      transform: translateX(-50%);
+      /* Centre parfaitement horizontalement */
+      background-color: rgba(255,255,255,0.5);
+      /* Fond blanc */
+      color: #333;
+      /* Couleur du texte, ajustez selon vos besoins */
+      font-weight: bold;
+      padding: 5px;
+      border-radius: 50%;
+      /* Cercle */
+      width: 20px;
+      /* Ajustez selon vos besoins */
+      height: 20px;
+      /* Ajustez selon vos besoins */
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 0.8em;
+      /* Ajustez la taille du texte selon vos besoins */
+      border: 2px solid #333;
+      /* Bordure pour mieux distinguer le cercle sur fond blanc */
+    }
+
+    .nom-joueur {
+      text-align: center;
+      /* Centre spécifiquement le nom du joueur */
+    }
         .celebrite-img {
             width: 60px;
             height: 60px;
@@ -90,8 +130,10 @@ document.addEventListener('DOMContentLoaded', function() {
                 joueurDiv.classList.add('joueur-premier');
             }
 
-            joueurDiv.innerHTML = `<strong>${joueur.place}. ${joueur.nomJoueur}</strong>`;
-
+            joueurDiv.innerHTML = `
+    <div class="place-joueur">${joueur.place}</div>
+    <div class="nom-joueur"><strong>${joueur.nomJoueur}</strong></div>
+`;
             const celebritesContainer = document.createElement('div');
             celebritesContainer.classList.add('celebrites-container');
             joueur.celebrites.forEach(celebriteNom => {
