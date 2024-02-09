@@ -51,10 +51,16 @@
             z-index: 1000;
             text-align: center;
         }
-        .joueur-premier {
-      border: 3px solid gold;
-      background-color: #555;
-        }
+    .joueur-premier {
+      box-shadow: 0 0 15px rgba(0, 0, 0, 1);
+      /* Ombre plus prononcée */
+      background-color: rgba(68, 68, 68, 1);
+      /* Fond légèrement plus clair */
+      transform: scale(1.05);
+      /* Agrandit légèrement le bloc */
+      transition: transform 0.3s ease;
+      /* Animation douce pour l'agrandissement */
+    }
     </style>
 </head>
 <body>
@@ -103,10 +109,10 @@ document.addEventListener('DOMContentLoaded', function() {
                         const infoModal = document.getElementById('info-modal');
                         const dateDecesFormatee = formaterDate(celebrite.dateDeces);
                         infoModal.innerHTML = `<h2>${celebrite.nom}</h2>
-                                               <p>Titre: ${celebrite.titre}</p>
-                                               <p>Âge: ${celebrite.age}</p>`;
+                                               <p>${celebrite.titre}</p>
+                                               <p>${celebrite.age}</p>`;
                         if (celebrite.dateDeces) {
-                            infoModal.innerHTML += `<p>Date de décès: ${dateDecesFormatee}</p>`;
+                            infoModal.innerHTML += `<p>🪦 ${dateDecesFormatee}</p>`;
                         }
                         infoModal.style.display = 'block';
                     });
