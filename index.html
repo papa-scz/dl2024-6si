@@ -151,6 +151,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         const infoModal = document.getElementById('info-modal');
                         const dateDecesFormatee = formaterDate(celebrite.dateDeces);
                         infoModal.innerHTML = `<h2>${celebrite.nom}</h2>
+                                               <img src="${celebrite.lienPhoto}" alt="Photo de ${celebrite.nom}" style="max-width: 80%; height: auto; margin-top: 10px;">
                                                <p>${celebrite.titre}</p>
                                                <p>${celebrite.age}</p>`;
                         if (celebrite.dateDeces) {
