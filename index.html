@@ -165,11 +165,11 @@
                 infoModal.innerHTML = `
                             <h2>${celebrite.nom}</h2>
                             <img src="${celebrite.lienPhoto}" alt="Photo de ${celebrite.nom}" loading="lazy" style="max-width: 80%; max-height: 60vh; height: auto; margin-top: 10px;">
-                            <p>Titre: ${celebrite.titre}</p>
-                            <p>Âge: ${celebrite.age}</p>
+                            <p>${celebrite.titre}</p>
+                            <p>${celebrite.age}</p>
                         `;
                 if (celebrite.dateDeces) {
-                  infoModal.innerHTML += `<p>Date de décès: ${dateDecesFormatee}</p>`;
+                  infoModal.innerHTML += `<p>🪦 ${dateDecesFormatee}</p>`;
                 }
                 infoModal.style.display = 'block';
               });
