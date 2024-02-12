@@ -1,25 +1,31 @@
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Classement des Joueurs</title>
-    <style>
-        body {
-            background-color: #333; /* Fond gris foncé */
-            color: #fff; /* Texte blanc */
-            font-family: Arial, sans-serif;
-            padding: 20px;
-        }
-        .container {
-            max-width: 800px;
-            margin: auto;
-        }
-        h1 {
-            text-align: center;
-            margin-bottom: 40px;
-        }
-   .classement-item {
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Classement des Joueurs</title>
+  <style>
+    body {
+      background-color: #333;
+      /* Fond gris foncé */
+      color: #fff;
+      /* Texte blanc */
+      font-family: Arial, sans-serif;
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: auto;
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+
+    .classement-item {
       position: relative;
       /* Assure que le positionnement absolu de .place-joueur est relatif à ce bloc */
       margin-bottom: 20px;
@@ -39,7 +45,7 @@
       /* Débute au centre */
       transform: translateX(-50%);
       /* Centre parfaitement horizontalement */
-      background-color: rgba(255,255,255,0.5);
+      background-color: rgba(255, 255, 255, 0.5);
       /* Fond blanc */
       color: #333;
       /* Couleur du texte, ajustez selon vos besoins */
@@ -64,34 +70,39 @@
       text-align: center;
       /* Centre spécifiquement le nom du joueur */
     }
-        .celebrite-img {
-            width: 60px;
-            height: 60px;
-            object-fit: cover;
-            margin-right: 10px;
-        }
-        .img-gray {
-            filter: grayscale(100%);
-        }
-        .celebrites-container {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-top: 10px;
-        }
-        .info-modal {
-            display: none;
-            position: fixed;
-            background-color: #fff;
-            color: #000;
-            padding: 20px;
-            border-radius: 5px;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            z-index: 1000;
-            text-align: center;
-        }
+
+    .celebrite-img {
+      width: 60px;
+      height: 60px;
+      object-fit: cover;
+      margin-right: 10px;
+    }
+
+    .img-gray {
+      filter: grayscale(100%);
+    }
+
+    .celebrites-container {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-top: 10px;
+    }
+
+    .info-modal {
+      display: none;
+      position: fixed;
+      background-color: #fff;
+      color: #000;
+      padding: 20px;
+      border-radius: 5px;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 1000;
+      text-align: center;
+    }
+
     .joueur-premier {
       box-shadow: 0 0 15px rgba(0, 0, 0, 1);
       /* Ombre plus prononcée */
@@ -102,88 +113,105 @@
       transition: transform 0.3s ease;
       /* Animation douce pour l'agrandissement */
     }
-    </style>
+  </style>
 </head>
+
 <body>
-    <div class="container">
-        <h1>Classement des Joueurs</h1>
-        <div id="classement-container">
-            <!-- Le classement des joueurs sera injecté ici -->
-        </div>
+  <div class="container">
+    <h1>Classement des Joueurs</h1>
+    <div id="classement-container">
+      <!-- Le classement des joueurs sera injecté ici -->
     </div>
+  </div>
 
-    <div id="info-modal" class="info-modal">
-        <!-- Les infos de la célébrité seront affichées ici -->
-    </div>
+  <div id="info-modal" class="info-modal">
+    <!-- Les infos de la célébrité seront affichées ici -->
+  </div>
 
-    <script>
-document.addEventListener('DOMContentLoaded', function() {
-    fetch('https://script.google.com/macros/s/AKfycbxH1XzjHDDD3nSo3FNiDBrcUv3NpLloOqi7Djgk-p7aTxFMZgW7wUjQCJEpr3aJlqSGuA/exec')
-    .then(response => response.json())
-    .then(data => {
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const CACHE_KEY = 'classementData'; // Définir une clé de cache unique
+      // Fonction pour afficher les données sur la page
+      function afficherDonnees(data) {
         const classementContainer = document.getElementById('classement-container');
+        classementContainer.innerHTML = ''; // Effacer les anciennes données si nécessaire
         data.classement.forEach(joueur => {
-            const joueurDiv = document.createElement('div');
-            joueurDiv.classList.add('classement-item');
-            
-            // Vérifie si c'est le joueur numéro 1 et applique un style différent
-            if (joueur.place === 1) {
-                joueurDiv.classList.add('joueur-premier');
-            }
-
-            joueurDiv.innerHTML = `
-    <div class="place-joueur">${joueur.place}</div>
-    <div class="nom-joueur"><strong>${joueur.nomJoueur}</strong></div>
-`;
-            const celebritesContainer = document.createElement('div');
-            celebritesContainer.classList.add('celebrites-container');
-            joueur.celebrites.forEach(celebriteNom => {
-                const celebrite = data.celebrites.find(c => c.nom === celebriteNom);
-                if (celebrite) {
-                    const img = document.createElement('img');
-                    img.src = celebrite.lienPhoto;
-                    img.alt = celebrite.nom;
-                    img.classList.add('celebrite-img');
-                    if (celebrite.dateDeces) {
-                        img.classList.add('img-gray');
-                    }
-                    img.addEventListener('click', (e) => {
-                        e.stopPropagation(); // Empêche la propagation de cet événement
-                        const infoModal = document.getElementById('info-modal');
-                        const dateDecesFormatee = formaterDate(celebrite.dateDeces);
-                        infoModal.innerHTML = `<h2>${celebrite.nom}</h2>
-                                               <img src="${celebrite.lienPhoto}" alt="Photo de ${celebrite.nom}" style="max-width: 80%; height: auto; margin-top: 10px;">
-                                               <p>${celebrite.titre}</p>
-                                               <p>${celebrite.age}</p>`;
-                        if (celebrite.dateDeces) {
-                            infoModal.innerHTML += `<p>🪦 ${dateDecesFormatee}</p>`;
-                        }
-                        infoModal.style.display = 'block';
-                    });
-                    celebritesContainer.appendChild(img);
+          const joueurDiv = document.createElement('div');
+          joueurDiv.classList.add('classement-item');
+          if (joueur.place === 1) { // Appliquer un style différent pour le joueur numéro 1
+            joueurDiv.classList.add('joueur-premier');
+          }
+          joueurDiv.innerHTML = `
+                <div class="place-joueur">${joueur.place}</div>
+                <div class="nom-joueur"><strong>${joueur.nomJoueur}</strong></div>
+            `;
+          const celebritesContainer = document.createElement('div');
+          celebritesContainer.classList.add('celebrites-container');
+          joueur.celebrites.forEach(celebriteNom => {
+            const celebrite = data.celebrites.find(c => c.nom === celebriteNom);
+            if (celebrite) {
+              const img = document.createElement('img');
+              img.src = celebrite.lienPhoto;
+              img.alt = `Photo de ${celebrite.nom}`;
+              img.classList.add('celebrite-img');
+              if (celebrite.dateDeces) {
+                img.classList.add('img-gray');
+              }
+              img.addEventListener('click', (e) => {
+                e.stopPropagation(); // Empêche la propagation de cet événement
+                const infoModal = document.getElementById('info-modal');
+                const dateDecesFormatee = formaterDate(celebrite.dateDeces);
+                infoModal.innerHTML = `
+                            <h2>${celebrite.nom}</h2>
+                            <img src="${celebrite.lienPhoto}" alt="Photo de ${celebrite.nom}" loading="lazy" style="max-width: 80%; max-height: 60vh; height: auto; margin-top: 10px;">
+                            <p>Titre: ${celebrite.titre}</p>
+                            <p>Âge: ${celebrite.age}</p>
+                        `;
+                if (celebrite.dateDeces) {
+                  infoModal.innerHTML += `<p>Date de décès: ${dateDecesFormatee}</p>`;
                 }
-            });
-            joueurDiv.appendChild(celebritesContainer);
-            classementContainer.appendChild(joueurDiv);
+                infoModal.style.display = 'block';
+              });
+              celebritesContainer.appendChild(img);
+            }
+          });
+          joueurDiv.appendChild(celebritesContainer);
+          classementContainer.appendChild(joueurDiv);
         });
-    });
-
-    window.addEventListener('click', function(e) {
-        const infoModal = document.getElementById('info-modal');
-        if (infoModal.style.display === 'block' && !infoModal.contains(e.target)) {
-            infoModal.style.display = 'none';
-        }
-    });
-
-    function formaterDate(dateString) {
+      }
+      // Fonction pour formater les dates
+      function formaterDate(dateString) {
         if (!dateString) return ""; // Retourne une chaîne vide si aucune date n'est fournie
         const date = new Date(dateString);
         const jour = date.getDate().toString().padStart(2, '0');
         const mois = (date.getMonth() + 1).toString().padStart(2, '0');
         const annee = date.getFullYear();
         return `${jour}/${mois}/${annee}`;
-    }
-});   
-</script>
+      }
+      // Vérifier si les données sont déjà en cache
+      const cachedData = localStorage.getItem(CACHE_KEY);
+      if (cachedData) {
+        // Utiliser les données mises en cache
+        afficherDonnees(JSON.parse(cachedData));
+      } else {
+        // Récupérer les données et les mettre en cache
+        fetch('https://script.google.com/macros/s/AKfycbxH1XzjHDDD3nSo3FNiDBrcUv3NpLloOqi7Djgk-p7aTxFMZgW7wUjQCJEpr3aJlqSGuA/exec')
+          .then(response => response.json())
+          .then(data => {
+            localStorage.setItem(CACHE_KEY, JSON.stringify(data)); // Sauvegarder dans le cache
+            afficherDonnees(data);
+          });
+      }
+      // Fermer le modal en cliquant en dehors
+      window.addEventListener('click', function(e) {
+        const infoModal = document.getElementById('info-modal');
+        if (infoModal.style.display === 'block' && !infoModal.contains(e.target)) {
+          infoModal.style.display = 'none';
+        }
+      });
+    });
+  </script>
+
 </body>
+
 </html>
