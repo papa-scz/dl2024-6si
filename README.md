@@ -38,3 +38,7 @@ Les contributions à ce projet sont les bienvenues. Voici comment vous pouvez co
 - **Rapport de Bugs :** Ouvrez une "issue" pour tout bug rencontré.
 - **Demandes de Fonctionnalités :** Vous pouvez également ouvrir des "issues" pour les demandes de nouvelles fonctionnalités.
 - **Pull Requests :** Si vous souhaitez contribuer directement au code, n'hésitez pas à faire une "pull request" avec vos modifications ou améliorations.
+
+## Licence
+
+Ce projet est sous licence MIT. Voir le fichier [LICENSE](LICENSE.md) pour plus de détails.
