@@ -179,6 +179,7 @@
           classementContainer.appendChild(joueurDiv);
         });
       }
+
       // Fonction pour formater les dates
       function formaterDate(dateString) {
         if (!dateString) return ""; // Retourne une chaîne vide si aucune date n'est fournie
@@ -188,20 +189,31 @@
         const annee = date.getFullYear();
         return `${jour}/${mois}/${annee}`;
       }
-      // Vérifier si les données sont déjà en cache
+
+      // Fonction pour récupérer les données du serveur
+      function recupererDonnees() {
+        fetch('https://script.google.com/macros/s/AKfycbxH1XzjHDDD3nSo3FNiDBrcUv3NpLloOqi7Djgk-p7aTxFMZgW7wUjQCJEpr3aJlqSGuA/exec?random=' + Math.random())
+          .then(response => response.json())
+          .then(data => {
+            localStorage.setItem('classementData', JSON.stringify(data)); // Sauvegarder dans le cache
+            localStorage.setItem('classementDataTimestamp', Date.now()); // Sauvegarder le timestamp actuel
+            afficherDonnees(data);
+          });
+      }
+
+      // Vérifier si les données sont déjà en cache et si elles sont toujours valides
       const cachedData = localStorage.getItem('classementData');
       if (cachedData) {
-        // Utiliser les données mises en cache
-        afficherDonnees(JSON.parse(cachedData));
+        const cachedTimestamp = localStorage.getItem('classementDataTimestamp');
+        if (cachedTimestamp && Date.now() - parseInt(cachedTimestamp, 10) < 3600000) { // Vérifier si les données sont en cache depuis moins d'une heure (3600000 ms)
+          afficherDonnees(JSON.parse(cachedData));
+        } else {
+          recupererDonnees();
+        }
       } else {
-        // Récupérer les données et les mettre en cache
-        fetch('https://script.google.com/macros/s/AKfycbxH1XzjHDDD3nSo3FNiDBrcUv3NpLloOqi7Djgk-p7aTxFMZgW7wUjQCJEpr3aJlqSGuA/exec?random=' + Math.random())
-        .then(response => response.json())
-        .then(data => {
-          localStorage.setItem('classementData', JSON.stringify(data)); // Sauvegarder dans le cache
-          afficherDonnees(data);
-        });
+        recupererDonnees();
       }
+
       // Fermer le modal en cliquant en dehors
       window.addEventListener('click', function(e) {
         const infoModal = document.getElementById('info-modal');
