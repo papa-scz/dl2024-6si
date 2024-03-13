@@ -196,12 +196,12 @@
         afficherDonnees(JSON.parse(cachedData));
       } else {
         // Récupérer les données et les mettre en cache
-        fetch('https://script.google.com/macros/s/AKfycbxH1XzjHDDD3nSo3FNiDBrcUv3NpLloOqi7Djgk-p7aTxFMZgW7wUjQCJEpr3aJlqSGuA/exec')
-          .then(response => response.json())
-          .then(data => {
-            localStorage.setItem(CACHE_KEY, JSON.stringify(data)); // Sauvegarder dans le cache
-            afficherDonnees(data);
-          });
+        fetch('https://script.google.com/macros/s/AKfycbxH1XzjHDDD3nSo3FNiDBrcUv3NpLloOqi7Djgk-p7aTxFMZgW7wUjQCJEpr3aJlqSGuA/exec?random=' + Math.random())
+        .then(response => response.json())
+        .then(data => {
+          localStorage.setItem(CACHE_KEY, JSON.stringify(data)); // Sauvegarder dans le cache
+          afficherDonnees(data);
+        });
       }
       // Fermer le modal en cliquant en dehors
       window.addEventListener('click', function(e) {
