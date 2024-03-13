@@ -205,7 +205,7 @@
       const cachedData = localStorage.getItem('classementData');
       if (cachedData) {
         const cachedTimestamp = localStorage.getItem('classementDataTimestamp');
-        if (cachedTimestamp && Date.now() - parseInt(cachedTimestamp, 10) < 3600000) { // Vérifier si les données sont en cache depuis moins d'une heure (3600000 ms)
+        if (cachedTimestamp && Date.now() - parseInt(cachedTimestamp, 10) < 60000 ) { // Vérifier si les données sont en cache depuis moins d'une heure (3600000 ms)
           afficherDonnees(JSON.parse(cachedData));
         } else {
           recupererDonnees();
