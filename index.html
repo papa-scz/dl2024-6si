@@ -131,7 +131,6 @@
 
   <script>
     document.addEventListener('DOMContentLoaded', function() {
-      const CACHE_KEY = 'classementData'; // Définir une clé de cache unique
       // Fonction pour afficher les données sur la page
       function afficherDonnees(data) {
         const classementContainer = document.getElementById('classement-container');
@@ -190,7 +189,7 @@
         return `${jour}/${mois}/${annee}`;
       }
       // Vérifier si les données sont déjà en cache
-      const cachedData = localStorage.getItem(CACHE_KEY);
+      const cachedData = localStorage.getItem('classementData');
       if (cachedData) {
         // Utiliser les données mises en cache
         afficherDonnees(JSON.parse(cachedData));
@@ -199,7 +198,7 @@
         fetch('https://script.google.com/macros/s/AKfycbxH1XzjHDDD3nSo3FNiDBrcUv3NpLloOqi7Djgk-p7aTxFMZgW7wUjQCJEpr3aJlqSGuA/exec?random=' + Math.random())
         .then(response => response.json())
         .then(data => {
-          localStorage.setItem(CACHE_KEY, JSON.stringify(data)); // Sauvegarder dans le cache
+          localStorage.setItem('classementData', JSON.stringify(data)); // Sauvegarder dans le cache
           afficherDonnees(data);
         });
       }
